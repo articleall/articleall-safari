@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Articleall</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="panel">
+      <header>
+        <div class="brand-mark" aria-hidden="true">A</div>
+        <div>
+          <h1>Articleall</h1>
+          <p>Full-page articles</p>
+        </div>
+      </header>
+      <section class="setting" aria-labelledby="toggle-label">
+        <div>
+          <strong id="toggle-label">Auto-redirect</strong>
+          <span id="status" role="status">Loading...</span>
+        </div>
+        <label class="switch">
+          <input id="enabled" type="checkbox" aria-describedby="status">
+          <span class="slider" aria-hidden="true"></span>
+        </label>
+      </section>
+      <p id="error" class="error" role="alert" hidden></p>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
