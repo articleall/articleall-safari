@@ -8,8 +8,17 @@ function hasQueryKey(url, key) {
   return url.searchParams.has(key);
 }
 
-function withQuery(url, key, value) {
-  if (hasQueryKey(url, key)) {
+function isArticlePath(url, rule) {
+  if (rule.pathPatterns) {
+    return rule.pathPatterns.some((pattern) => new RegExp(pattern).test(url.pathname));
+  }
+
+  return url.pathname.split("/").filter(Boolean).length >= 2;
+}
+
+function withQuery(url, rule) {
+  const { key, value } = rule;
+  if (hasQueryKey(url, key) && url.searchParams.get(key) === value) {
     return null;
   }
 
@@ -46,20 +55,17 @@ export function rewriteUrl(input) {
   let rewritten = null;
 
   for (const rule of RULES.query) {
-    if (matchesDomain(hostname, rule.domain)) {
-      rewritten = withQuery(url, rule.key, rule.value);
+    if (matchesDomain(hostname, rule.domain) && isArticlePath(url, rule)) {
+      rewritten = withQuery(url, rule);
       break;
     }
   }
 
   if (!rewritten) {
     for (const rule of RULES.slashQuery) {
-      if (matchesDomain(hostname, rule.domain)) {
-        if (hasQueryKey(url, rule.key)) {
-          return null;
-        }
+      if (matchesDomain(hostname, rule.domain) && isArticlePath(url, rule)) {
         url.pathname = `${url.pathname.replace(/\/+$/, "")}/`;
-        rewritten = withQuery(url, rule.key, rule.value);
+        rewritten = withQuery(url, rule);
         break;
       }
     }
@@ -67,7 +73,7 @@ export function rewriteUrl(input) {
 
   if (!rewritten) {
     for (const rule of RULES.path) {
-      if (matchesDomain(hostname, rule.domain)) {
+      if (matchesDomain(hostname, rule.domain) && isArticlePath(url, rule)) {
         rewritten = withPathSuffix(url, rule.suffix);
         break;
       }

@@ -1,4 +1,5 @@
 import { rewriteUrl } from "./router.js";
+import { clearRedirects, shouldRedirect } from "./redirect-guard.js";
 
 const ENABLED_KEY = "enabled";
 const DEFAULT_ENABLED = true;
@@ -43,13 +44,21 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
   }
 });
 
+chrome.tabs.onRemoved.addListener((tabId) => {
+  clearRedirects(tabId);
+});
+
 chrome.webNavigation.onCommitted.addListener(async (details) => {
   if (details.frameId !== 0 || !(await getEnabled())) {
     return;
   }
 
   const targetUrl = rewriteUrl(details.url);
-  if (targetUrl && targetUrl !== details.url) {
+  if (
+    targetUrl &&
+    targetUrl !== details.url &&
+    shouldRedirect(details.tabId, details.url, targetUrl)
+  ) {
     await chrome.tabs.update(details.tabId, { url: targetUrl });
   }
 });

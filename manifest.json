@@ -29,6 +29,11 @@
     "*://*.beritasatu.com/*",
     "*://*.detik.com/*",
     "*://*.insidermonkey.com/*",
+    "*://*.merdeka.com/*",
+    "*://*.liputan6.com/*",
+    "*://*.tempo.co/*",
+    "*://*.cnnindonesia.com/*",
+    "*://*.okezone.com/*",
     "*://*.inews.id/*",
     "*://*.wahananews.co/*"
   ],

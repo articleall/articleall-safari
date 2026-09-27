@@ -10,8 +10,38 @@ test("adds page=all and preserves existing query and hash", () => {
 });
 
 test("does not redirect when the target query key already exists", () => {
-  assert.equal(rewriteUrl("https://suara.com/news?page=1"), null);
+  assert.equal(rewriteUrl("https://suara.com/news/read/1?page=all"), null);
   assert.equal(rewriteUrl("https://detik.com/read?single"), null);
+});
+
+test("rewrites numeric pagination values to the full-page value", () => {
+  assert.equal(
+    rewriteUrl("https://nasional.kompas.com/read/123?page=1"),
+    "https://nasional.kompas.com/read/123?page=all",
+  );
+  assert.equal(
+    rewriteUrl("https://news.sindonews.com/read/1?showpage=2"),
+    "https://news.sindonews.com/read/1?showpage=all",
+  );
+  assert.equal(
+    rewriteUrl("https://www.poskota.co.id/read/1?view=3"),
+    "https://www.poskota.co.id/read/1?view=all",
+  );
+});
+
+test("filters homepages, categories, and search paths", () => {
+  assert.equal(rewriteUrl("https://nasional.kompas.com/"), null);
+  assert.equal(rewriteUrl("https://nasional.kompas.com/news"), null);
+  assert.equal(rewriteUrl("https://nasional.kompas.com/search?q=politik"), null);
+  assert.equal(
+    rewriteUrl("https://nasional.kompas.com/read/123"),
+    "https://nasional.kompas.com/read/123?page=all",
+  );
+  assert.equal(rewriteUrl("https://www.detik.com/news"), null);
+  assert.equal(
+    rewriteUrl("https://news.detik.com/news/d-123/contoh"),
+    "https://news.detik.com/news/d-123/contoh?single=1",
+  );
 });
 
 test("uses site-specific query keys", () => {

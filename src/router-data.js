@@ -3,7 +3,10 @@ export const RULES = {
     {
       "domain": "kompas.com",
       "key": "page",
-      "value": "all"
+      "value": "all",
+      "pathPatterns": [
+        "\\/read\\/"
+      ]
     },
     {
       "domain": "suara.com",
@@ -88,12 +91,55 @@ export const RULES = {
     {
       "domain": "detik.com",
       "key": "single",
-      "value": "1"
+      "value": "1",
+      "pathPatterns": [
+        "\\/(news|sport|inet|finance|hot|sepakbola|wolipop|travel|edu|health)\\/"
+      ]
     },
     {
       "domain": "insidermonkey.com",
       "key": "singlepage",
       "value": "1"
+    },
+    {
+      "domain": "merdeka.com",
+      "key": "page",
+      "value": "all",
+      "pathPatterns": [
+        "\\/(peristiwa|politik|dunia|uang|gaya|olahraga|teknologi)\\/"
+      ]
+    },
+    {
+      "domain": "liputan6.com",
+      "key": "page",
+      "value": "all",
+      "pathPatterns": [
+        "\\/(news|bisnis|bola|global|tekno|health|lifestyle|showbiz|cek-fakta)\\/read\\/"
+      ]
+    },
+    {
+      "domain": "tempo.co",
+      "key": "page",
+      "value": "all",
+      "pathPatterns": [
+        "\\/read\\/"
+      ]
+    },
+    {
+      "domain": "cnnindonesia.com",
+      "key": "page",
+      "value": "all",
+      "pathPatterns": [
+        "\\/(nasional|internasional|ekonomi|teknologi|olahraga|gaya-hidup)\\/"
+      ]
+    },
+    {
+      "domain": "okezone.com",
+      "key": "page",
+      "value": "all",
+      "pathPatterns": [
+        "\\/read\\/"
+      ]
     }
   ],
   "slashQuery": [
