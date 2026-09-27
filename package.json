@@ -3,6 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test src/router.test.js src/redirect-guard.test.js src/background.test.js"
+    "test": "node --test src/*.test.js"
   }
 }
