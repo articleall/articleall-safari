@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "Articleall",
+  "version": "1.0.0",
+  "description": "Automatically open supported multi-page articles in their full-page view.",
+  "permissions": [
+    "storage",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "*://*.kompas.com/*",
+    "*://*.suara.com/*",
+    "*://*.tribunnews.com/*",
+    "*://*.grid.id/*",
+    "*://*.viva.co.id/*",
+    "*://*.intipseleb.com/*",
+    "*://*.parapuan.co/*",
+    "*://*.sonora.id/*",
+    "*://*.herstory.co.id/*",
+    "*://*.motorplus-online.com/*",
+    "*://*.kompasiana.com/*",
+    "*://*.jawapos.com/*",
+    "*://*.idntimes.com/*",
+    "*://*.popmama.com/*",
+    "*://*.kosadata.com/*",
+    "*://*.fajar.co.id/*",
+    "*://*.sindonews.com/*",
+    "*://*.poskota.co.id/*",
+    "*://*.beritasatu.com/*",
+    "*://*.detik.com/*",
+    "*://*.insidermonkey.com/*",
+    "*://*.inews.id/*",
+    "*://*.wahananews.co/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Articleall",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

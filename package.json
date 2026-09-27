@@ -1,0 +1,8 @@
+{
+  "name": "articleall",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test src/router.test.js"
+  }
+}
