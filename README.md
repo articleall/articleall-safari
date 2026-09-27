@@ -18,6 +18,11 @@ present.
 Safari Web Extensions are distributed inside a containing app; Xcode performs
 the final Safari extension packaging and signing.
 
+For a ready-to-open macOS wrapper scaffold, see
+[`macos/README.md`](macos/README.md). It includes an XcodeGen recipe and a
+manual setup fallback; signing and bundle identifiers still need to be
+configured by the developer.
+
 The extension is enabled by default. Click the Articleall toolbar icon to pause
 or resume automatic redirects. The setting is stored with Safari Sync storage.
 
