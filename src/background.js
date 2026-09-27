@@ -1,6 +1,7 @@
 import { rewriteUrl } from "./router.js";
 import { clearRedirects, shouldRedirect } from "./redirect-guard.js";
 import { getEnabled, setEnabled } from "./enabled-state.js";
+import { isSiteEnabled } from "./site-settings.js";
 const ENABLED_KEY = "enabled";
 
 async function updateAction(enabled) {
@@ -36,12 +37,22 @@ chrome.tabs.onRemoved.addListener((tabId) => {
   clearRedirects(tabId);
 });
 
+chrome.commands.onCommand.addListener(async (command) => {
+  if (command === "toggle-enabled") {
+    const enabled = !(await getEnabled());
+    await setEnabled(enabled);
+    await updateAction(enabled);
+  }
+});
+
 chrome.webNavigation.onCommitted.addListener(async (details) => {
   if (details.frameId !== 0 || !(await getEnabled())) {
     return;
   }
 
-  const targetUrl = rewriteUrl(details.url);
+  const targetUrl = rewriteUrl(details.url, {
+    siteEnabled: await isSiteEnabled(new URL(details.url).hostname),
+  });
   if (
     targetUrl &&
     targetUrl !== details.url &&

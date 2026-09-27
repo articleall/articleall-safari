@@ -39,7 +39,7 @@ function withPathSuffix(url, suffix) {
 /**
  * Return the full-page URL for a supported article, or null when unchanged.
  */
-export function rewriteUrl(input) {
+export function rewriteUrl(input, { siteEnabled = true } = {}) {
   let url;
   try {
     url = new URL(input);
@@ -52,6 +52,9 @@ export function rewriteUrl(input) {
   }
 
   const hostname = url.hostname.toLowerCase();
+  if (!siteEnabled) {
+    return null;
+  }
   let rewritten = null;
 
   for (const rule of RULES.query) {

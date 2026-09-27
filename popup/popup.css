@@ -106,3 +106,5 @@ input:focus-visible + .slider {
   color: #b91c1c;
   font-size: 12px;
 }
+
+#site-settings { display: inline-block; margin-top: 16px; color: #2563eb; font-size: 12px; }
