@@ -1,34 +1,4 @@
-const QUERY_RULES = new Map([
-  ["kompas.com", ["page", "all"]],
-  ["suara.com", ["page", "all"]],
-  ["tribunnews.com", ["page", "all"]],
-  ["grid.id", ["page", "all"]],
-  ["viva.co.id", ["page", "all"]],
-  ["intipseleb.com", ["page", "all"]],
-  ["parapuan.co", ["page", "all"]],
-  ["sonora.id", ["page", "all"]],
-  ["herstory.co.id", ["page", "all"]],
-  ["motorplus-online.com", ["page", "all"]],
-  ["kompasiana.com", ["page", "all"]],
-  ["idntimes.com", ["page", "all"]],
-  ["popmama.com", ["page", "all"]],
-  ["kosadata.com", ["page", "all"]],
-  ["fajar.co.id", ["page", "all"]],
-  ["sindonews.com", ["showpage", "all"]],
-  ["poskota.co.id", ["view", "all"]],
-  ["detik.com", ["single", "1"]],
-  ["insidermonkey.com", ["singlepage", "1"]],
-]);
-
-const PATH_RULES = new Map([
-  ["inews.id", "all"],
-  ["wahananews.co", "0"],
-]);
-
-const SLASH_QUERY_RULES = new Map([
-  ["jawapos.com", "page"],
-  ["beritasatu.com", "view"],
-]);
+import { RULES } from "./router-data.js";
 
 function matchesDomain(hostname, domain) {
   return hostname === domain || hostname.endsWith(`.${domain}`);
@@ -38,7 +8,7 @@ function hasQueryKey(url, key) {
   return url.searchParams.has(key);
 }
 
-function withQuery(url, key, value = "all") {
+function withQuery(url, key, value) {
   if (hasQueryKey(url, key)) {
     return null;
   }
@@ -75,31 +45,30 @@ export function rewriteUrl(input) {
   const hostname = url.hostname.toLowerCase();
   let rewritten = null;
 
-  for (const [domain, [key, value]] of QUERY_RULES) {
-    if (matchesDomain(hostname, domain)) {
-      rewritten = withQuery(url, key, value);
+  for (const rule of RULES.query) {
+    if (matchesDomain(hostname, rule.domain)) {
+      rewritten = withQuery(url, rule.key, rule.value);
       break;
     }
   }
 
   if (!rewritten) {
-    for (const [domain, key] of SLASH_QUERY_RULES) {
-      if (matchesDomain(hostname, domain)) {
-        const path = url.pathname.replace(/\/+$/, "");
-        if (hasQueryKey(url, key)) {
+    for (const rule of RULES.slashQuery) {
+      if (matchesDomain(hostname, rule.domain)) {
+        if (hasQueryKey(url, rule.key)) {
           return null;
         }
-        url.pathname = `${path}/`;
-        rewritten = withQuery(url, key);
+        url.pathname = `${url.pathname.replace(/\/+$/, "")}/`;
+        rewritten = withQuery(url, rule.key, rule.value);
         break;
       }
     }
   }
 
   if (!rewritten) {
-    for (const [domain, suffix] of PATH_RULES) {
-      if (matchesDomain(hostname, domain)) {
-        rewritten = withPathSuffix(url, suffix);
+    for (const rule of RULES.path) {
+      if (matchesDomain(hostname, rule.domain)) {
+        rewritten = withPathSuffix(url, rule.suffix);
         break;
       }
     }

@@ -19,7 +19,7 @@ Safari Web Extensions are distributed inside a containing app; Xcode performs
 the final Safari extension packaging and signing.
 
 The extension is enabled by default. Click the Articleall toolbar icon to pause
-or resume automatic redirects. The setting is stored with Chrome Sync.
+or resume automatic redirects. The setting is stored with Safari Sync storage.
 
 ## Supported sites
 
