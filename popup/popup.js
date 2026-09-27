@@ -1,3 +1,5 @@
+import { getSetting, setSetting } from "./storage.js";
+
 const enabledInput = document.querySelector("#enabled");
 const status = document.querySelector("#status");
 const error = document.querySelector("#error");
@@ -21,15 +23,13 @@ function showError(message) {
   status.textContent = text.unavailable;
 }
 
-chrome.storage.sync
-  .get({ [ENABLED_KEY]: true })
-  .then((values) => showState(values[ENABLED_KEY] === true))
+getSetting(ENABLED_KEY, true)
+  .then((enabled) => showState(enabled === true))
   .catch(() => showError(text.error));
 
 enabledInput.addEventListener("change", () => {
   const enabled = enabledInput.checked;
-  chrome.storage.sync
-    .set({ [ENABLED_KEY]: enabled })
+  setSetting(ENABLED_KEY, enabled)
     .then(() => showState(enabled))
     .catch(() => {
       showState(!enabled);
