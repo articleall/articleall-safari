@@ -1,13 +1,7 @@
 import { rewriteUrl } from "./router.js";
 import { clearRedirects, shouldRedirect } from "./redirect-guard.js";
-
+import { getEnabled, setEnabled } from "./enabled-state.js";
 const ENABLED_KEY = "enabled";
-const DEFAULT_ENABLED = true;
-
-async function getEnabled() {
-  const values = await chrome.storage.sync.get({ [ENABLED_KEY]: DEFAULT_ENABLED });
-  return values[ENABLED_KEY] === true;
-}
 
 async function updateAction(enabled) {
   await chrome.action.setBadgeText({ text: enabled ? "" : "OFF" });
@@ -23,15 +17,9 @@ async function updateAction(enabled) {
 }
 
 chrome.runtime.onInstalled.addListener(async () => {
-  const values = await chrome.storage.sync.get(ENABLED_KEY);
-  if (typeof values[ENABLED_KEY] !== "boolean") {
-    await chrome.storage.sync.set({ [ENABLED_KEY]: DEFAULT_ENABLED });
-  }
-  await updateAction(
-    typeof values[ENABLED_KEY] === "boolean"
-      ? values[ENABLED_KEY]
-      : DEFAULT_ENABLED,
-  );
+  const enabled = await getEnabled();
+  await setEnabled(enabled);
+  await updateAction(enabled);
 });
 
 chrome.runtime.onStartup.addListener(async () => {
@@ -39,8 +27,8 @@ chrome.runtime.onStartup.addListener(async () => {
 });
 
 chrome.storage.onChanged.addListener(async (changes, areaName) => {
-  if (areaName === "sync" && changes[ENABLED_KEY]) {
-    await updateAction(changes[ENABLED_KEY].newValue === true);
+  if ((areaName === "sync" || areaName === "local") && changes[ENABLED_KEY]) {
+    await updateAction(await getEnabled());
   }
 });
 

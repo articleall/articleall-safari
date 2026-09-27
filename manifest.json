@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "name": "Articleall",
   "version": "1.0.0",
+  "incognito": "split",
   "description": "Automatically open supported multi-page articles in their full-page view.",
   "permissions": [
     "storage",
