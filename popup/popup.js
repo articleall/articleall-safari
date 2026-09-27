@@ -1,11 +1,11 @@
 import { getSetting, setSetting } from "./storage.js";
+import { getTranslations } from "../src/i18n.js";
 
 const enabledInput = document.querySelector("#enabled");
 const status = document.querySelector("#status");
 const error = document.querySelector("#error");
 const ENABLED_KEY = "enabled";
-const id = navigator.language.toLowerCase().startsWith("id");
-const text = id ? { subtitle: "Artikel satu halaman", global: "Pengalihan otomatis", enabled: "Aktif", disabled: "Nonaktif", unavailable: "Tidak tersedia", error: "Tidak dapat memuat pengaturan.", siteSettings: "Pengaturan situs" } : { subtitle: "Full-page articles", global: "Auto-redirect", enabled: "Enabled", disabled: "Disabled", unavailable: "Unavailable", error: "Unable to load settings.", siteSettings: "Site settings" };
+const text = getTranslations();
 document.querySelector("#subtitle").textContent = text.subtitle;
 document.querySelector("#toggle-label").textContent = text.global;
 document.querySelector("#site-settings").textContent = text.siteSettings;

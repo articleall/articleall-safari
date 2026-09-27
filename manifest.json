@@ -35,6 +35,9 @@
     "*://*.tempo.co/*",
     "*://*.cnnindonesia.com/*",
     "*://*.okezone.com/*",
+    "*://*.antaranews.com/*",
+    "*://*.republika.co.id/*",
+    "*://*.bisnis.com/*",
     "*://*.inews.id/*",
     "*://*.wahananews.co/*"
   ],

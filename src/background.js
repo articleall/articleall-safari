@@ -3,6 +3,15 @@ import { clearRedirects, shouldRedirect } from "./redirect-guard.js";
 import { getEnabled, setEnabled } from "./enabled-state.js";
 import { isSiteEnabled } from "./site-settings.js";
 const ENABLED_KEY = "enabled";
+let badgeTimer;
+
+async function showRedirectBadge() {
+  await chrome.action.setBadgeText({ text: "→" });
+  globalThis.clearTimeout(badgeTimer);
+  badgeTimer = globalThis.setTimeout(() => {
+    chrome.action.setBadgeText({ text: "" });
+  }, 1000);
+}
 
 async function updateAction(enabled) {
   await chrome.action.setBadgeText({ text: enabled ? "" : "OFF" });
@@ -59,5 +68,6 @@ chrome.webNavigation.onCommitted.addListener(async (details) => {
     shouldRedirect(details.tabId, details.url, targetUrl)
   ) {
     await chrome.tabs.update(details.tabId, { url: targetUrl });
+    await showRedirectBadge();
   }
 });

@@ -140,6 +140,30 @@ export const RULES = {
       "pathPatterns": [
         "\\/read\\/"
       ]
+    },
+    {
+      "domain": "antaranews.com",
+      "key": "page",
+      "value": "all",
+      "pathPatterns": [
+        "\\/berita\\/"
+      ]
+    },
+    {
+      "domain": "republika.co.id",
+      "key": "page",
+      "value": "all",
+      "pathPatterns": [
+        "\\/berita\\/"
+      ]
+    },
+    {
+      "domain": "bisnis.com",
+      "key": "page",
+      "value": "all",
+      "pathPatterns": [
+        "\\/read\\/"
+      ]
     }
   ],
   "slashQuery": [

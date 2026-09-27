@@ -27,6 +27,10 @@ test("rewrites numeric pagination values to the full-page value", () => {
     rewriteUrl("https://www.poskota.co.id/read/1?view=3"),
     "https://www.poskota.co.id/read/1?view=all",
   );
+  assert.equal(
+    rewriteUrl("https://nasional.kompas.com/read/123?page=2"),
+    "https://nasional.kompas.com/read/123?page=all",
+  );
 });
 
 test("filters homepages, categories, and search paths", () => {
@@ -38,9 +42,17 @@ test("filters homepages, categories, and search paths", () => {
     "https://nasional.kompas.com/read/123?page=all",
   );
   assert.equal(rewriteUrl("https://www.detik.com/news"), null);
+  assert.equal(rewriteUrl("https://news.detik.com/blog/123/contoh"), null);
   assert.equal(
     rewriteUrl("https://news.detik.com/news/d-123/contoh"),
     "https://news.detik.com/news/d-123/contoh?single=1",
+  );
+});
+
+test("skips rewriting disabled sites", () => {
+  assert.equal(
+    rewriteUrl("https://nasional.kompas.com/read/123", { siteEnabled: false }),
+    null,
   );
 });
 
@@ -56,6 +68,21 @@ test("uses site-specific query keys", () => {
   assert.equal(
     rewriteUrl("https://insidermonkey.com/read/1"),
     "https://insidermonkey.com/read/1?singlepage=1",
+  );
+});
+
+test("supports the additional Indonesian news sites", () => {
+  assert.equal(
+    rewriteUrl("https://www.antaranews.com/berita/123/contoh?page=1"),
+    "https://www.antaranews.com/berita/123/contoh?page=all",
+  );
+  assert.equal(
+    rewriteUrl("https://news.republika.co.id/berita/abc123/contoh"),
+    "https://news.republika.co.id/berita/abc123/contoh?page=all",
+  );
+  assert.equal(
+    rewriteUrl("https://finansial.bisnis.com/read/20260926/215/2007491/contoh?page=2"),
+    "https://finansial.bisnis.com/read/20260926/215/2007491/contoh?page=all",
   );
 });
 

@@ -1,8 +1,8 @@
 import { getEnabled, setEnabled } from "../src/enabled-state.js";
 import { getAllSites, setSiteEnabled } from "../src/site-settings.js";
+import { getTranslations } from "../src/i18n.js";
 
-const id = navigator.language.toLowerCase().startsWith("id");
-const text = id ? { settings: "Pengaturan", global: "Pengalihan otomatis", sites: "Situs yang didukung", enabled: "Aktif", disabled: "Nonaktif", back: "Kembali ke Articleall", error: "Tidak dapat memuat pengaturan." } : { settings: "Settings", global: "Auto-redirect", sites: "Supported sites", enabled: "Enabled", disabled: "Disabled", back: "Back to Articleall", error: "Unable to load settings." };
+const text = getTranslations();
 document.querySelector("#subtitle").textContent = text.settings;
 document.querySelector("#global-label").textContent = text.global;
 document.querySelector("#sites-heading").textContent = text.sites;
